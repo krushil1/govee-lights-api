@@ -15,20 +15,16 @@ const deviceInfo = {
 
 const goveeApiKey = process.env.GOVEE_API_KEY;
 
-// Middleware for API key verification
 function apiKeyMiddleware(req, res, next) {
-  const apiKey = req.header('X-API-Key'); // You can use a custom header, like 'X-API-Key'
+  const apiKey = req.header('X-API-Key'); 
 
   if (apiKey === process.env.KRUSH_API_KEY) {
-    // Valid API key, proceed with the request
     next();
   } else {
-    // Invalid API key, send a 401 Unauthorized response
     res.status(401).json({ error: 'Unauthorized' });
   }
 }
 
-// Apply the API key verification middleware to the /control endpoint
 app.use('/control', apiKeyMiddleware);
 
 app.post('/control', async (req, res) => {
